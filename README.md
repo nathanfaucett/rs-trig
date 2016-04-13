@@ -1,0 +1,4 @@
+rs-trig
+=====
+
+trig trait

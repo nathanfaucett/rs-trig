@@ -1,0 +1,7 @@
+[package]
+name = "trig"
+version = "0.1.0"
+authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
+
+[dependencies]
+libc = "0.2"

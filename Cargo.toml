@@ -3,5 +3,12 @@ name = "trig"
 version = "0.1.0"
 authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
 
+keywords = ["trig"]
+description = "trig trait"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/nathanfaucett/rs-trig.git"
+homepage = "https://github.com/nathanfaucett/rs-trig"
+
 [dependencies]
 libc = "0.2"

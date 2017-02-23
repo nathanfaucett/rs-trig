@@ -2,16 +2,57 @@ use core::f32::{NEG_INFINITY, NAN};
 use libc::c_float;
 
 
+#[cfg(not(target_env = "msvc"))]
 #[link_name = "m"]
 extern {
-    pub fn acos(n: c_float) -> c_float;
-    pub fn asin(n: c_float) -> c_float;
-    pub fn atan(n: c_float) -> c_float;
-    pub fn atan2(a: c_float, b: c_float) -> c_float;
-    pub fn cosh(n: c_float) -> c_float;
-    pub fn sinh(n: c_float) -> c_float;
-    pub fn tan(n: c_float) -> c_float;
-    pub fn tanh(n: c_float) -> c_float;
+    pub fn acosf(n: c_float) -> c_float;
+    pub fn asinf(n: c_float) -> c_float;
+    pub fn atan2f(a: c_float, b: c_float) -> c_float;
+    pub fn atanf(n: c_float) -> c_float;
+    pub fn coshf(n: c_float) -> c_float;
+    pub fn sinhf(n: c_float) -> c_float;
+    pub fn tanf(n: c_float) -> c_float;
+    pub fn tanhf(n: c_float) -> c_float;
+}
+
+#[cfg(target_env = "msvc")]
+pub use self::shims::*;
+#[cfg(target_env = "msvc")]
+mod shims {
+    use libc::{c_float, c_int};
+
+    #[inline]
+    pub unsafe fn acosf(n: c_float) -> c_float {
+        f64::acos(n as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn asinf(n: c_float) -> c_float {
+        f64::asin(n as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn atan2f(n: c_float, b: c_float) -> c_float {
+        f64::atan2(n as f64, b as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn atanf(n: c_float) -> c_float {
+        f64::atan(n as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn coshf(n: c_float) -> c_float {
+        f64::cosh(n as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn sinhf(n: c_float) -> c_float {
+        f64::sinh(n as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn tanf(n: c_float) -> c_float {
+        f64::tan(n as f64) as c_float
+    }
+    #[inline]
+    pub unsafe fn tanhf(n: c_float) -> c_float {
+        f64::tanh(n as f64) as c_float
+    }
 }
 
 extern "rust-intrinsic"  {
@@ -20,14 +61,14 @@ extern "rust-intrinsic"  {
 }
 
 
-pub use self::acos as acosf32;
-pub use self::asin as asinf32;
-pub use self::atan as atanf32;
-pub use self::atan2 as atan2f32;
-pub use self::cosh as coshf32;
-pub use self::sinh as sinhf32;
-pub use self::tan as tanf32;
-pub use self::tanh as tanhf32;
+pub use self::acosf as acosf32;
+pub use self::asinf as asinf32;
+pub use self::atanf as atanf32;
+pub use self::atan2f as atan2f32;
+pub use self::coshf as coshf32;
+pub use self::sinhf as sinhf32;
+pub use self::tanf as tanf32;
+pub use self::tanhf as tanhf32;
 
 
 #[allow(illegal_floating_point_constant_pattern)]

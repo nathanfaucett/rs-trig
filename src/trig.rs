@@ -3,20 +3,98 @@ use trig_f64::*;
 
 
 pub trait Trig {
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::sin(1_f32), 0.84147096_f32);
+    /// assert_eq!(Trig::sin(1_f64), 0.8414709848078965_f64);
+    /// ~~~
     fn sin(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::asin(1_f32), 1.5707964_f32);
+    /// assert_eq!(Trig::asin(1_f64), 1.5707963267948966_f64);
+    /// ~~~
     fn asin(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::sinh(1_f32), 1.1752012_f32);
+    /// assert_eq!(Trig::sinh(1_f64), 1.1752011936438014_f64);
+    /// ~~~
     fn sinh(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::asinh(1_f32), 0.88137364_f32);
+    /// assert_eq!(Trig::asinh(1_f64), 0.8813735870195429_f64);
+    /// ~~~
     fn asinh(self) -> Self;
 
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::cos(1_f32), 0.5403023_f32);
+    /// assert_eq!(Trig::cos(1_f64), 0.5403023058681398_f64);
+    /// ~~~
     fn cos(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::acos(1_f32), 0_f32);
+    /// assert_eq!(Trig::acos(1_f64), 0_f64);
+    /// ~~~
     fn acos(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::cosh(1_f32), 1.5430806_f32);
+    /// assert_eq!(Trig::cosh(1_f64), 1.5430806348152437_f64);
+    /// ~~~
     fn cosh(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::acosh(1_f32), 0_f32);
+    /// assert_eq!(Trig::acosh(1_f64), 0_f64);
+    /// ~~~
     fn acosh(self) -> Self;
 
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::tan(1_f32), 1.5574077_f32);
+    /// assert_eq!(Trig::tan(1_f64), 1.5574077246549023_f64);
+    /// ~~~
     fn tan(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::atan(1_f32), 0.7853982_f32);
+    /// assert_eq!(Trig::atan(1_f64), 0.7853981633974483_f64);
+    /// ~~~
     fn atan(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::tanh(1_f32), 0.7615942_f32);
+    /// assert_eq!(Trig::tanh(1_f64), 0.7615941559557649_f64);
+    /// ~~~
     fn tanh(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::atanh(0_f32), 0_f32);
+    /// assert_eq!(Trig::atanh(0_f64), 0_f64);
+    /// ~~~
     fn atanh(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// assert_eq!(Trig::atan2(1_f32, 1_f32), 0.7853982_f32);
+    /// assert_eq!(Trig::atan2(1_f64, 1_f64), 0.7853981633974483_f64);
+    /// ~~~
     fn atan2(self, other: Self) -> Self;
 }
 
@@ -176,11 +254,11 @@ fn trig() {
     assert_eq!((0).cos(), 1);
     assert_eq!((0).tan(), 0);
 
-    assert_eq!((0f32).sin(), 0f32);
-    assert_eq!((0f32).cos(), 1f32);
-    assert_eq!((0f32).tan(), 0f32);
+    assert_eq!((0_f32).sin(), 0_f32);
+    assert_eq!((0_f32).cos(), 1_f32);
+    assert_eq!((0_f32).tan(), 0_f32);
 
-    assert_eq!((0f64).sin(), 0f64);
-    assert_eq!((0f64).cos(), 1f64);
-    assert_eq!((0f64).tan(), 0f64);
+    assert_eq!((0_f64).sin(), 0_f64);
+    assert_eq!((0_f64).cos(), 1_f64);
+    assert_eq!((0_f64).tan(), 0_f64);
 }

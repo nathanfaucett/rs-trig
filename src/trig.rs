@@ -1,5 +1,14 @@
+use core::{f32, f64};
+
 use trig_f32::*;
 use trig_f64::*;
+
+
+pub static TO_DEGREES_F32: f32 = 180_f32 / f32::consts::PI;
+pub static TO_DEGREES_F64: f64 = 180_f64 / f64::consts::PI;
+
+pub static TO_RADS_F32: f32 = f32::consts::PI / 180_f32;
+pub static TO_RADS_F64: f64 = f64::consts::PI / 180_f64;
 
 
 pub trait Trig {
@@ -96,6 +105,20 @@ pub trait Trig {
     /// assert_eq!(Trig::atan2(1_f64, 1_f64), 0.7853981633974483_f64);
     /// ~~~
     fn atan2(self, other: Self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// use std::f32::consts::PI;
+    /// assert_eq!(Trig::to_degrees(PI), 180_f32);
+    /// ~~~
+    fn to_degrees(self) -> Self;
+    /// # Examples
+    /// ~~~
+    /// use trig::Trig;
+    /// use std::f32::consts::PI;
+    /// assert_eq!(Trig::to_radians(180f32), PI);
+    /// ~~~
+    fn to_radians(self) -> Self;
 }
 
 macro_rules! trait_trig_as_32 {
@@ -130,6 +153,14 @@ macro_rules! trait_trig_as_32 {
             #[inline(always)]
             fn atan2(self, other: $t) -> Self {
                 unsafe { atan2f32(self as f32, other as f32) as $t }
+            }
+            #[inline]
+            fn to_degrees(self) -> Self {
+                self * TO_DEGREES_F32 as $t
+            }
+            #[inline]
+            fn to_radians(self) -> Self {
+                ((self as f32) * TO_RADS_F32) as $t
             }
         }
     );
@@ -167,6 +198,14 @@ macro_rules! trait_trig_as_64 {
             #[inline(always)]
             fn atan2(self, other: $t) -> Self {
                 unsafe { atan2f64(self as f64, other as f64) as $t }
+            }
+            #[inline]
+            fn to_degrees(self) -> Self {
+                self * TO_DEGREES_F64 as $t
+            }
+            #[inline]
+            fn to_radians(self) -> Self {
+                ((self as f64) * TO_RADS_F64) as $t
             }
         }
     );
@@ -215,6 +254,14 @@ impl Trig for f32 {
     fn atanh(self) -> Self { unsafe { atanhf32(self) } }
     #[inline(always)]
     fn atan2(self, other: f32) -> Self { unsafe { atan2f32(self, other) } }
+    #[inline]
+    fn to_degrees(self) -> Self {
+        self * TO_DEGREES_F32
+    }
+    #[inline]
+    fn to_radians(self) -> Self {
+        self * TO_RADS_F32
+    }
 }
 
 impl Trig for f64 {
@@ -246,6 +293,14 @@ impl Trig for f64 {
     fn atanh(self) -> Self { unsafe { atanhf64(self) } }
     #[inline(always)]
     fn atan2(self, other: f64) -> Self { unsafe { atan2f64(self, other) } }
+    #[inline]
+    fn to_degrees(self) -> Self {
+        self * TO_DEGREES_F64
+    }
+    #[inline]
+    fn to_radians(self) -> Self {
+        self * TO_RADS_F64
+    }
 }
 
 #[test]

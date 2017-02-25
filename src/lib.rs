@@ -12,4 +12,4 @@ mod trig;
 
 pub use trig_f32::*;
 pub use trig_f64::*;
-pub use trig::Trig;
+pub use trig::*;

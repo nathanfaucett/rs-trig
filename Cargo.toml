@@ -11,4 +11,3 @@ repository = "https://github.com/nathanfaucett/rs-trig.git"
 homepage = "https://github.com/nathanfaucett/rs-trig"
 
 [dependencies]
-libc = "0.2"

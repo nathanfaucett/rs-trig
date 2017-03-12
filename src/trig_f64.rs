@@ -1,4 +1,5 @@
 use core::f64::{NEG_INFINITY, NAN};
+
 use libc::c_double;
 
 
@@ -12,11 +13,14 @@ extern {
     pub fn sinh(n: c_double) -> c_double;
     pub fn tan(n: c_double) -> c_double;
     pub fn tanh(n: c_double) -> c_double;
+    pub fn log1p(n: c_double) -> c_double;
 }
 
 extern "rust-intrinsic"  {
     pub fn cosf64(x: f64) -> f64;
     pub fn sinf64(x: f64) -> f64;
+    pub fn logf64(x: f64) -> f64;
+    pub fn sqrtf64(x: f64) -> f64;
 }
 
 
@@ -33,19 +37,20 @@ pub use self::tanh as tanhf64;
 #[allow(illegal_floating_point_constant_pattern)]
 #[inline]
 pub unsafe fn asinhf64(n: f64) -> f64 {
-    match n {
-        NEG_INFINITY => NEG_INFINITY,
-        x => (x + ((x * x) + 1f64).sqrt()).ln(),
+    if n == NEG_INFINITY {
+        NEG_INFINITY
+    } else {
+        logf64(n + sqrtf64((n * n) + 1.0))
     }
 }
 #[inline]
 pub unsafe fn acoshf64(n: f64) -> f64 {
     match n {
         x if x < 1.0 => NAN,
-        x => (x + ((x * x) - 1.0).sqrt()).ln(),
+        x => logf64(x + sqrtf64((x * x) - 1.0)),
     }
 }
 #[inline]
 pub unsafe fn atanhf64(n: f64) -> f64 {
-    0.5 * ((2.0 * n) / (1.0 - n)).ln_1p()
+    0.5 * log1p((2.0 * n) / (1.0 - n))
 }

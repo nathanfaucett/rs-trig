@@ -1,4 +1,5 @@
 use core::f32::{NEG_INFINITY, NAN};
+
 use libc::c_float;
 
 
@@ -13,6 +14,7 @@ extern {
     pub fn sinhf(n: c_float) -> c_float;
     pub fn tanf(n: c_float) -> c_float;
     pub fn tanhf(n: c_float) -> c_float;
+    pub fn log1pf(n: c_float) -> c_float;
 }
 
 #[cfg(target_env = "msvc")]
@@ -53,11 +55,17 @@ mod shims {
     pub unsafe fn tanhf(n: c_float) -> c_float {
         f64::tanh(n as f64) as c_float
     }
+    #[inline]
+    pub unsafe fn log1pf(n: c_float) -> c_float {
+        f64::log1p(n as f64) as c_float
+    }
 }
 
 extern "rust-intrinsic"  {
     pub fn cosf32(x: f32) -> f32;
     pub fn sinf32(x: f32) -> f32;
+    pub fn logf32(x: f32) -> f32;
+    pub fn sqrtf32(x: f32) -> f32;
 }
 
 
@@ -74,19 +82,20 @@ pub use self::tanhf as tanhf32;
 #[allow(illegal_floating_point_constant_pattern)]
 #[inline]
 pub unsafe fn asinhf32(n: f32) -> f32 {
-    match n {
-        NEG_INFINITY => NEG_INFINITY,
-        x => (x + ((x * x) + 1f32).sqrt()).ln(),
+    if n == NEG_INFINITY {
+        NEG_INFINITY
+    } else {
+        logf32(n + sqrtf32((n * n) + 1.0))
     }
 }
 #[inline]
 pub unsafe fn acoshf32(n: f32) -> f32 {
     match n {
         x if x < 1.0 => NAN,
-        x => (x + ((x * x) - 1.0).sqrt()).ln(),
+        x => logf32(x + sqrtf32((x * x) - 1.0)),
     }
 }
 #[inline]
 pub unsafe fn atanhf32(n: f32) -> f32 {
-    0.5 * ((2.0 * n) / (1.0 - n)).ln_1p()
+    0.5 * log1pf((2.0 * n) / (1.0 - n))
 }
